@@ -13,9 +13,18 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.chosun.eartalk",
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "This app requires microphone access to recognize your speech."
+      }
     },
     "android": {
+      "package": "com.chosun.eartalk",
+      "permissions": [
+        "RECORD_AUDIO",
+        "INTERNET"
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -23,6 +32,15 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "updates": {
+      "enabled": true,
+      "fallbackToCacheTimeout": 0
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2c9fad37-cde3-47e7-83cd-3519869ae620"
+      }
     }
   }
 }
