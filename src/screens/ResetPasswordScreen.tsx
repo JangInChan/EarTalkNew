@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, TextInput, Button, Alert } from 'react-native';
 import { config } from '../config';
 import axios from 'axios';
+import ResetPasswordScreenStyles from '../styles/ResetPasswordScreenStyles';
 
 const ResetPasswordScreen = ({ navigation }: any) => {
   const [email, setEmail] = useState('');
@@ -28,31 +29,16 @@ const ResetPasswordScreen = ({ navigation }: any) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={ResetPasswordScreenStyles.container}>
       <TextInput
         placeholder="가입한 이메일 입력"
         value={email}
         onChangeText={setEmail}
-        style={styles.input}
+        style={ResetPasswordScreenStyles.input}
       />
       <Button title="비밀번호 재설정" onPress={handleResetPassword} />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 20,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 15,
-  },
-});
 
 export default ResetPasswordScreen;

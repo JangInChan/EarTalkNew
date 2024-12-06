@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Button, Alert } from 'react-native';
 import { config } from '../config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import UpdatePasswordScreenStyles from '../styles/UpdatePasswordScreenStyles';
 
 const UpdatePasswordScreen = ({ navigation }: any) => {
   const [oldPassword, setOldPassword] = useState('');
@@ -58,54 +59,32 @@ const UpdatePasswordScreen = ({ navigation }: any) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>비밀번호 변경</Text>
+    <View style={UpdatePasswordScreenStyles.container}>
+      <Text style={UpdatePasswordScreenStyles.title}>비밀번호 변경</Text>
       <TextInput
         placeholder="현재 비밀번호"
         secureTextEntry
         value={oldPassword}
         onChangeText={setOldPassword}
-        style={styles.input}
+        style={UpdatePasswordScreenStyles.input}
       />
       <TextInput
         placeholder="새 비밀번호"
         secureTextEntry
         value={newPassword}
         onChangeText={setNewPassword}
-        style={styles.input}
+        style={UpdatePasswordScreenStyles.input}
       />
       <TextInput
         placeholder="새 비밀번호 확인"
         secureTextEntry
         value={verifyNewPassword}
         onChangeText={setVerifyNewPassword}
-        style={styles.input}
+        style={UpdatePasswordScreenStyles.input}
       />
       <Button title="비밀번호 변경" onPress={handlePasswordChange} />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 20,
-  },
-  title: {
-    fontFamily: 'KCC-Hanbit',
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 15,
-  },
-});
 
 export default UpdatePasswordScreen;

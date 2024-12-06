@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, Button, Alert, StyleSheet } from 'react-native';
+import { View, Text, Button, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { config } from '../config';
+import DeleteAccountScreenStyles from '../styles/DeleteAccountScreenStyles';
 
 const DeleteAccountScreen = ({ navigation }: { navigation: any }) => {
   const deleteAccount = async () => {
@@ -54,30 +55,13 @@ const DeleteAccountScreen = ({ navigation }: { navigation: any }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.warningText}>
+    <View style={DeleteAccountScreenStyles.container}>
+      <Text style={DeleteAccountScreenStyles.warningText}>
         회원 탈퇴를 진행하면 모든 데이터가 삭제되며 복구할 수 없습니다.
       </Text>
       <Button title="회원 탈퇴" onPress={deleteAccount} color="red" />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16,
-    backgroundColor: '#fff',
-  },
-  warningText: {
-    fontFamily: 'KCC-Hanbit',
-    fontSize: 16,
-    color: 'red',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-});
 
 export default DeleteAccountScreen;

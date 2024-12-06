@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
-import { View, Alert, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Alert, Text, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Font from 'expo-font';
 import HomeScreen from './src/App';
@@ -12,6 +12,7 @@ import ResetPasswordScreen from './src/screens/ResetPasswordScreen';
 import DeleteAccountScreen from './src/screens/DeleteAccountScreen';
 import RecordingListScreen from './src/screens/RecordingListScreen';
 import UserInfoScreen from './src/screens/UserInfoScreen';
+import MainScreenStyles from './src/styles/MainScreenStyles';
 
 type StackParamList = {
   Home: undefined;
@@ -48,8 +49,8 @@ const App = () => {
 
   if (!fontsLoaded) {
     return (
-      <View style={styles.container}>
-        <Text style={styles.loadingText}>폰트를 로딩 중...</Text>
+      <View style={MainScreenStyles.container}>
+        <Text style={MainScreenStyles.loadingText}>폰트를 로딩 중...</Text>
       </View>
     );
   }
@@ -62,15 +63,15 @@ const App = () => {
           component={HomeScreen}
           options={({ navigation }) => ({
             headerTitle: () => (
-              <Text style={styles.headerTitle}>EarTalk</Text>
+              <Text style={MainScreenStyles.headerTitle}>EarTalk</Text>
             ),
             headerLeft: () => null,
             headerRight: () => (
               <TouchableOpacity
-                style={styles.headerButton}
+                style={MainScreenStyles.headerButton}
                 onPress={() => navigation.navigate('Menu')}
               >
-                <Text style={styles.headerButtonText}>메뉴</Text>
+                <Text style={MainScreenStyles.headerButtonText}>메뉴</Text>
               </TouchableOpacity>
             ),
           })}
@@ -125,56 +126,56 @@ const MenuScreen: React.FC<MenuScreenProps> = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={MainScreenStyles.container}>
       {isLoggedIn ? (
         <>
           <TouchableOpacity
-            style={styles.button}
+            style={MainScreenStyles.button}
             onPress={() => navigation.navigate('UserInfo')}
           >
-            <Text style={styles.buttonText}>내 정보</Text>
+            <Text style={MainScreenStyles.buttonText}>내 정보</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.button}
+            style={MainScreenStyles.button}
             onPress={() => navigation.navigate('RecordingList')}
           >
-            <Text style={styles.buttonText}>녹음 기록</Text>
+            <Text style={MainScreenStyles.buttonText}>녹음 기록</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.button}
+            style={MainScreenStyles.button}
             onPress={() => navigation.navigate('UpdatePassword')}
           >
-            <Text style={styles.buttonText}>비밀번호 변경</Text>
+            <Text style={MainScreenStyles.buttonText}>비밀번호 변경</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.button}
+            style={MainScreenStyles.button}
             onPress={() => navigation.navigate('DeleteAccount')}
           >
-            <Text style={styles.buttonText}>회원탈퇴</Text>
+            <Text style={MainScreenStyles.buttonText}>회원탈퇴</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={handleLogout}>
-            <Text style={styles.buttonText}>로그아웃</Text>
+          <TouchableOpacity style={MainScreenStyles.button} onPress={handleLogout}>
+            <Text style={MainScreenStyles.buttonText}>로그아웃</Text>
           </TouchableOpacity>
         </>
       ) : (
         <>
           <TouchableOpacity
-            style={styles.button}
+            style={MainScreenStyles.button}
             onPress={() => navigation.navigate('SignUp')}
           >
-            <Text style={styles.buttonText}>회원가입</Text>
+            <Text style={MainScreenStyles.buttonText}>회원가입</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.button}
+            style={MainScreenStyles.button}
             onPress={() => navigation.navigate('Login')}
           >
-            <Text style={styles.buttonText}>로그인</Text>
+            <Text style={MainScreenStyles.buttonText}>로그인</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.button}
+            style={MainScreenStyles.button}
             onPress={() => navigation.navigate('ResetPassword')}
           >
-            <Text style={styles.buttonText}>비밀번호 찾기</Text>
+            <Text style={MainScreenStyles.buttonText}>비밀번호 찾기</Text>
           </TouchableOpacity>
         </>
       )}
@@ -182,50 +183,4 @@ const MenuScreen: React.FC<MenuScreenProps> = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f9f9f9',
-  },
-  loadingText: {
-    fontFamily: 'KCC-Hanbit',
-    fontSize: 20,
-    color: 'black',
-  },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    fontFamily: 'KCC-Hanbit',
-    color: '#333',
-  },
-  headerButton: {
-    padding: 10,
-    backgroundColor: '#FFE400',
-    borderRadius: 5,
-    marginRight: 10,
-  },
-  headerButtonText: {
-    fontFamily: 'KCC-Hanbit',
-    color: 'black',
-    fontWeight: 'bold',
-  },
-  button: {
-    backgroundColor: '#FFE400',
-    padding: 15,
-    borderRadius: 5,
-    marginVertical: 10,
-    width: '80%',
-    alignItems: 'center',
-  },
-  buttonText: {
-    fontFamily: 'KCC-Hanbit',
-    color: 'black',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-});
-
-export { styles };
 export default App;

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Button, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { config } from '../config';
+import LoginScreenStyles from '../styles/LoginScreenStyles';
 
 const LoginScreen = ({ navigation }: any) => {
   // email과 password의 상태를 string으로 선언
@@ -30,25 +31,26 @@ const LoginScreen = ({ navigation }: any) => {
         },
         body: formData.toString(),
       });
-
+  
       const data = await response.json();
-
+  
       if (!response.ok) {
-        console.error('로그인 실패:', data);
-        Alert.alert('로그인 실패', JSON.stringify(data.detail));
+        Alert.alert('로그인 실패', data.detail || '서버 오류');
         return;
       }
-
-      // 로그인 성공 시 받은 access token 처리
+  
       const token = data.access_token;
-      console.log('로그인 성공, 토큰:', token);
-
-      // AsyncStorage 등에 토큰 저장
+      console.log('발급된 토큰:', token);
+  
+      // AsyncStorage에 토큰 저장
       await AsyncStorage.setItem('access_token', token);
-
+  
+      // 저장된 토큰 확인
+      const savedToken = await AsyncStorage.getItem('access_token');
+      console.log('저장된 토큰 확인:', savedToken);
+  
       Alert.alert('로그인 성공', '로그인에 성공했습니다!');
-      navigation.navigate('Home');  // 로그인 후 홈 화면으로 이동
-
+      navigation.navigate('Home');
     } catch (error) {
       console.error('로그인 오류:', error);
       Alert.alert('오류', '로그인 중 문제가 발생했습니다.');
@@ -56,47 +58,25 @@ const LoginScreen = ({ navigation }: any) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>로그인</Text>
+    <View style={LoginScreenStyles.container}>
+      <Text style={LoginScreenStyles.title}>로그인</Text>
       <TextInput
         placeholder="이메일"
         keyboardType="email-address"
         value={email}
         onChangeText={setEmail}
-        style={styles.input}
+        style={LoginScreenStyles.input}
       />
       <TextInput
         placeholder="비밀번호"
         secureTextEntry
         value={password}
         onChangeText={setPassword}
-        style={styles.input}
+        style={LoginScreenStyles.input}
       />
       <Button title="로그인" onPress={handleLogin} />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 20,
-  },
-  title: {
-    fontFamily: 'KCC-Hanbit',
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 15,
-  },
-});
 
 export default LoginScreen;

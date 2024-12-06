@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, Alert, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 import { config } from '../config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import UserInfoScreenStyles from '../styles/UserInfoScreenStyles';
 
 const UserInfoScreen = ({ navigation }: any) => {
   const [userInfo, setUserInfo] = useState<any>(null);
@@ -36,17 +37,17 @@ const UserInfoScreen = ({ navigation }: any) => {
   }, []); // 컴포넌트가 처음 렌더링될 때 한 번만 실행
 
   if (loading) {
-    return <ActivityIndicator size="large" color="#0000ff" style={styles.loader} />;
+    return <ActivityIndicator size="large" color="#0000ff" style={UserInfoScreenStyles.loader} />;
   }
 
   return (
-    <View style={styles.container}>
+    <View style={UserInfoScreenStyles.container}>
       {userInfo ? (
         <>
-          <Text style={styles.infoText}>이메일: {userInfo.email}</Text>
-          <Text style={styles.infoText}>출생년도: {userInfo.birthyear}</Text>
-          <Text style={styles.infoText}>성별: {userInfo.sex ? '남성' : '여성'}</Text>
-          <Text style={styles.infoText}>ID: {userInfo.id}</Text>
+          <Text style={UserInfoScreenStyles.infoText}>이메일: {userInfo.email}</Text>
+          <Text style={UserInfoScreenStyles.infoText}>출생년도: {userInfo.birthyear}</Text>
+          <Text style={UserInfoScreenStyles.infoText}>성별: {userInfo.sex ? '남성' : '여성'}</Text>
+          <Text style={UserInfoScreenStyles.infoText}>ID: {userInfo.id}</Text>
         </>
       ) : (
         <Text>사용자 정보를 불러오는 데 실패했습니다.</Text>
@@ -54,24 +55,5 @@ const UserInfoScreen = ({ navigation }: any) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16,
-  },
-  loader: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  infoText: {
-    fontFamily: 'KCC-Hanbit',
-    fontSize: 18,
-    marginVertical: 10,
-  },
-});
 
 export default UserInfoScreen;
