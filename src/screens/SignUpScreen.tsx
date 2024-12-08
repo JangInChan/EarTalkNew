@@ -68,15 +68,12 @@ const SignUpScreen = ({ navigation }: any) => {
         </Text>
       </View>
 
-      <Text style={SignUpScreenStyles.title} accessibilityRole="header">
-        회원가입
-      </Text>
+      <Text style={SignUpScreenStyles.title}>회원가입</Text>
       <TextInput
         placeholder="아이디"
         value={username}
         onChangeText={setUsername}
         style={SignUpScreenStyles.input}
-        accessibilityLabel="아이디 입력"
       />
       <TextInput
         placeholder="비밀번호"
@@ -84,7 +81,6 @@ const SignUpScreen = ({ navigation }: any) => {
         value={password}
         onChangeText={setPassword}
         style={SignUpScreenStyles.input}
-        accessibilityLabel="비밀번호 입력"
       />
       <TextInput
         placeholder="비밀번호 확인"
@@ -92,7 +88,6 @@ const SignUpScreen = ({ navigation }: any) => {
         value={verifyPassword}
         onChangeText={setVerifyPassword}
         style={SignUpScreenStyles.input}
-        accessibilityLabel="비밀번호 확인 입력"
       />
       <TextInput
         placeholder="이메일"
@@ -100,15 +95,12 @@ const SignUpScreen = ({ navigation }: any) => {
         value={email}
         onChangeText={setEmail}
         style={SignUpScreenStyles.input}
-        accessibilityLabel="이메일 입력"
       />
 
       {/* 출생 연도 선택 */}
       <TouchableOpacity
         onPress={() => setBirthYearModalVisible(true)}
         style={SignUpScreenStyles.selector}
-        accessibilityRole="button"
-        accessibilityLabel={`출생 연도 선택, 현재 선택된 연도는 ${birthYear || '없음'}`}
       >
         <Text style={SignUpScreenStyles.selectorText}>{birthYear ? birthYear : '출생 연도 선택'}</Text>
       </TouchableOpacity>
@@ -117,8 +109,6 @@ const SignUpScreen = ({ navigation }: any) => {
       <TouchableOpacity
         onPress={() => setSexModalVisible(true)}
         style={SignUpScreenStyles.selector}
-        accessibilityRole="button"
-        accessibilityLabel={`성별 선택, 현재 선택된 성별은 ${sex || '없음'}`}
       >
         <Text style={SignUpScreenStyles.selectorText}>{sex ? sex : '성별 선택'}</Text>
       </TouchableOpacity>
@@ -127,16 +117,11 @@ const SignUpScreen = ({ navigation }: any) => {
       <View style={SignUpScreenStyles.termsContainer}>
         <TouchableOpacity
           onPress={() => Linking.openURL('https://yulyul.notion.site/EarTalk-24-11-10-14b9d7c2ac5480f48b7af2d9cde26b88?pvs=4')}
-          accessibilityRole="button"
-          accessibilityLabel="서비스 이용약관 보기"
         >
           <Text style={SignUpScreenStyles.termsText}>📄 서비스 이용약관 보기</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => setIsTermsAgreed(!isTermsAgreed)}
-          accessibilityRole="checkbox"
-          accessibilityState={{ checked: isTermsAgreed }}
-          accessibilityLabel="서비스 이용약관 동의"
         >
           <Text style={SignUpScreenStyles.termsAgreeText}>
             {isTermsAgreed ? '✅ 동의 완료' : '☑ 동의하기'}
@@ -144,16 +129,11 @@ const SignUpScreen = ({ navigation }: any) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => Linking.openURL('https://yulyul.notion.site/EarTalk-14b9d7c2ac548049bddfd035a7eb0c56?pvs=4')}
-          accessibilityRole="button"
-          accessibilityLabel="개인정보 수집 및 이용 동의 보기"
         >
           <Text style={SignUpScreenStyles.termsText}>📄 개인정보 수집 및 이용 동의 보기</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => setIsPrivacyPolicyAgreed(!isPrivacyPolicyAgreed)}
-          accessibilityRole="checkbox"
-          accessibilityState={{ checked: isPrivacyPolicyAgreed }}
-          accessibilityLabel="개인정보 수집 및 이용 동의"
         >
           <Text style={SignUpScreenStyles.termsAgreeText}>
             {isPrivacyPolicyAgreed ? '✅ 동의 완료' : '☑ 동의하기'}
@@ -161,7 +141,7 @@ const SignUpScreen = ({ navigation }: any) => {
         </TouchableOpacity>
       </View>
 
-      <Button title="회원가입" onPress={handleSignUp} accessibilityLabel="회원가입 버튼" />
+      <Button title="회원가입" onPress={handleSignUp} />
 
       {/* 출생 연도 모달 */}
       <Modal

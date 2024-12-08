@@ -11,6 +11,12 @@ const AppStyles = StyleSheet.create({
     left: 20,
     padding: 10,
   },
+  menuLine: {
+    width: 30,
+    height: 3,
+    backgroundColor: '#000',
+    marginVertical: 3,
+  },
   textInputContainer: {
     flex: 6,
     backgroundColor: '#E7E7E7',
@@ -20,7 +26,7 @@ const AppStyles = StyleSheet.create({
   },
   textInput: {
     flex: 1,
-    backgroundColor: '#E7E7E7',
+    backgroundColor: 'FFFFFF',
     borderRadius: 10,
     padding: 10,
     color: '#000',
@@ -37,6 +43,14 @@ const AppStyles = StyleSheet.create({
     marginHorizontal: 5,
     borderRadius: 10,
     backgroundColor: '#DDD',
+  },
+  speakerButton: {
+    marginRight: 10,
+  },
+  copyButton: {},
+  buttonText: {
+    fontSize: 18,
+    color: '000',
   },
   recordingContainer: {
     flex: 4,
@@ -56,11 +70,26 @@ const AppStyles = StyleSheet.create({
   recordingButtonActive: {
     backgroundColor: '#FF6347',
   },
+  recordingText: {
+    color: '#FFF',
+    fontSize: 24,
+  },
   status: {
+    fontFamily: 'KCC-Hanbit',
     fontSize: 16,
     marginTop: 10,
     color: 'gray',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'f5f5f5',
+  },
+  loadingText: {
     fontFamily: 'KCC-Hanbit',
+    fontSize: 16,
+    color: '#555',
   },
 });
 

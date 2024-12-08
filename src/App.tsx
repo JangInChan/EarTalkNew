@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, TouchableOpacity, Text, Alert, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform, ScrollView, Dimensions } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, Alert, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform } from 'react-native';
 import { Audio } from 'expo-av';
 import * as Speech from 'expo-speech';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -17,6 +17,10 @@ const App = ({ navigation }: any) => {
   const [soundUri, setSoundUri] = useState<string | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [apiToken, setApiToken] = useState<string | null>(null);
+
+  const [fontsLoaded] = useFonts({
+    'KCC-Hanbit': require('../assets/font/KCC-Hanbit.ttf'),
+  });
 
   useEffect(() => {
     const loadTokenAndCheckLoginStatus = async () => {
@@ -37,6 +41,14 @@ const App = ({ navigation }: any) => {
     })();
   }, []);
 
+  if (!fontsLoaded) {
+    return (
+      <View style={AppStyles.loadingContainer}>
+        <Text style={AppStyles.loadingText}>폰트를 로딩 중...</Text>
+      </View>
+    );
+  }
+
   const handleTextInputFocus = () => {
     if (!isLoggedIn) {
       Alert.alert('사용 불가', '로그인 후에 사용 가능합니다.');
@@ -46,20 +58,6 @@ const App = ({ navigation }: any) => {
   const handleTextInputChange = (value: string) => {
     if (isLoggedIn) {
       setText(value);
-    }
-  };
-
-  const copyText = async () => {
-    if (text.trim()) {
-      try {
-        await Clipboard.setStringAsync(text);
-        Alert.alert('복사 완료', '텍스트가 클립보드에 복사되었습니다.');
-      } catch (error) {
-        console.error('텍스트 복사 실패:', error);
-        Alert.alert('복사 실패', '텍스트를 복사하는 도중 오류가 발생했습니다.');
-      }
-    } else {
-      Alert.alert('복사 실패', '복사할 텍스트가 없습니다.');
     }
   };
 
@@ -107,41 +105,52 @@ const App = ({ navigation }: any) => {
     }
   };
 
+  const speakText = () => {
+    if (text.trim()) {
+      try {
+        setStatus('텍스트 음성 변환 중...');
+        Speech.speak(text, {
+          onDone: () => {
+            setStatus('텍스트 음성 변환 완료');
+            setTimeout(() => setStatus(''), 2000);
+          },
+        });
+      } catch (error) {
+        console.error('음성 변환 중 오류 발생:', error);
+        setStatus('텍스트 음성 변환 실패');
+      }
+    } else {
+      Alert.alert('텍스트 없음', '읽을 텍스트를 입력해주세요.');
+    }
+  };
+
   const uploadAudio = async (uri: string) => {
     try {
       setStatus('파일 업로드 중...');
       const formData = new FormData();
-
+  
       formData.append('audio', {
         uri,
         name: 'recording.wav',
         type: 'audio/wav',
       } as unknown as Blob);
-
-      const token = await AsyncStorage.getItem('access_token');
-      if (!token) {
-        Alert.alert('로그인 필요', '로그인이 필요합니다. 다시 로그인해주세요.');
-        setStatus('로그인 필요');
-        return;
+  
+      const token = await AsyncStorage.getItem('access_token'); // 토큰을 가져오되 없어도 실행 가능
+      const headers: any = {
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+      };
+  
+      if (token) {
+        headers.Authorization = `Bearer ${token}`; // 토큰이 있을 때만 Authorization 헤더 추가
       }
-
+  
       const response = await fetch(`${config.API_BASE_URL}/api/audio`, {
         method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`,
-        },
+        headers,
         body: formData,
       });
-
-      if (response.status === 401) {
-        Alert.alert('인증 실패', '로그인이 만료되었습니다. 다시 로그인해주세요.');
-        setIsLoggedIn(false);
-        navigation.navigate('Login'); // 로그인 화면으로 이동
-        return;
-      }
-
+  
       if (!response.ok) {
         const errorResponse = await response.text();
         console.error(`API 요청 실패: ${response.status} - ${response.statusText}`);
@@ -149,7 +158,7 @@ const App = ({ navigation }: any) => {
         Alert.alert('오류', `API 요청 실패: ${response.status} - ${errorResponse}`);
         return;
       }
-
+  
       const data = await response.json();
       setText(data.text);
       setSoundUri(data.audioUrl);
@@ -160,31 +169,7 @@ const App = ({ navigation }: any) => {
     } finally {
       setTimeout(() => setStatus(''), 2000);
     }
-  };
-
-  const speakText = () => {
-    if (text.trim()) {
-      try {
-        setStatus('텍스트 음성 변환 중...');
-        Speech.speak(text, {
-          onDone: () => {
-            setStatus('텍스트 음성 변환 완료');
-            setTimeout(() => setStatus(''), 2000);
-          },
-          onError: () => {
-            setStatus('텍스트 음성 변환 실패');
-            setTimeout(() => setStatus(''), 2000);
-          },
-        });
-      } catch (error) {
-        console.error('음성 변환 중 오류 발생:', error);
-        setStatus('텍스트 음성 변환 실패');
-        setTimeout(() => setStatus(''), 2000);
-      }
-    } else {
-      Alert.alert('텍스트 없음', '읽을 텍스트를 입력해주세요.');
-    }
-  };
+  };  
 
   const playAudio = async () => {
     if (!soundUri) {
@@ -207,10 +192,28 @@ const App = ({ navigation }: any) => {
     }
   };
 
+  const dismissKeyboard = () => {
+    Keyboard.dismiss();
+  };
+
+  const copyText = async () => {
+    if (text.trim()) {
+      try {
+        await Clipboard.setStringAsync(text);
+        Alert.alert('복사 완료', '텍스트가 클립보드에 복사되었습니다.');
+      } catch (error) {
+        console.error('텍스트 복사 실패:', error);
+        Alert.alert('복사 실패', '텍스트를 복사하는 도중 오류가 발생했습니다.');
+      }
+    } else {
+      Alert.alert('복사 실패', '복사할 텍스트가 없습니다.');
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      style={AppStyles.container}
+      style={{ flex: 1 }}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={AppStyles.container}>
@@ -228,16 +231,22 @@ const App = ({ navigation }: any) => {
               multiline
               textAlignVertical="top"
               onFocus={handleTextInputFocus}
+              onTouchStart={() => {
+                if (!isLoggedIn) {
+                  Alert.alert('사용 불가', '로그인 후에 사용 가능합니다.');
+                }
+              }}
             />
+
             <View style={AppStyles.actionButtons}>
               <TouchableOpacity
-                style={AppStyles.iconButton}
+                style={[AppStyles.iconButton, AppStyles.speakerButton]}
                 onPress={speakText}
               >
                 <Feather name="volume-2" size={24} color="black" />
               </TouchableOpacity>
               <TouchableOpacity
-                style={AppStyles.iconButton}
+                style={[AppStyles.iconButton, AppStyles.copyButton]}
                 onPress={copyText}
               >
                 <Feather name="copy" size={24} color="black" />
