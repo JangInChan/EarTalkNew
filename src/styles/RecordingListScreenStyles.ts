@@ -24,11 +24,34 @@ const RecordingListScreenStyles = StyleSheet.create({
     borderRadius: 8,
     padding: 10,
     marginVertical: 8,
+    backgroundColor: '#f9f9f9',
   },
   recordingText: {
     fontFamily: 'KCC-Hanbit',
     fontSize: 14,
     marginVertical: 2,
+    color: '#333',
+  },
+  playButton: {
+    marginTop: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    backgroundColor: '#007BFF',
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  playButtonText: {
+    fontFamily: 'KCC-Hanbit',
+    fontSize: 14,
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  statusText: {
+    fontFamily: 'KCC-Hanbit',
+    textAlign: 'center',
+    fontSize: 14,
+    color: '#007BFF',
+    marginVertical: 10,
   },
 });
 

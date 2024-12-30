@@ -30,6 +30,54 @@ const SignUpScreen = ({ navigation }: any) => {
       return;
     }
 
+    // 비밀번호 유효성 검증
+    const passwordValidation = (password: string): string | null => {
+      const minLength = 8;
+      const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+      if (password.length < minLength) {
+        return `비밀번호는 최소 ${minLength}자 이상이어야 합니다.`;
+      }
+      if (!hasSpecialChar) {
+        return '비밀번호에는 최소 하나의 특수문자가 포함되어야 합니다.';
+      }
+      return null;
+    };
+
+    const passwordError = passwordValidation(password);
+    if (passwordError) {
+      Alert.alert('비밀번호 오류', passwordError);
+      return;
+    }
+
+    type ErrorDetail = {
+      loc: string[]; // 오류가 발생한 위치
+      msg: string; // 서버에서 반환된 메시지
+      ctx?: {
+        [key: string]: any; // 추가적인 컨텍스트 정보 (선택적)
+      };
+    };
+
+    const translateErrorMessage = (errorData: ErrorDetail[]): string => {
+      return errorData
+        .map((error) => {
+          if (error.loc.includes("email")) {
+            return "이메일 주소가 유효하지 않습니다. 이메일에는 @ 기호가 포함되어야 합니다.";
+          }
+          if (error.loc.includes("password")) {
+            return "비밀번호는 최소 8자 이상이어야 하며, 특수문자를 포함해야 합니다.";
+          }
+          if (error.loc.includes("verify_password")) {
+            return "비밀번호 확인은 비밀번호와 동일해야 합니다.";
+          }
+          if (error.loc.includes("birthyear")) {
+            return "출생 연도를 올바르게 입력해야 합니다.";
+          }
+          return "알 수 없는 오류가 발생했습니다.";
+        })
+        .join("\n");
+    };
+
+
     try {
       const response = await fetch(`${config.API_BASE_URL}/api/users/signup`, {
         method: 'POST',
@@ -48,7 +96,8 @@ const SignUpScreen = ({ navigation }: any) => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        Alert.alert('회원가입 실패', JSON.stringify(errorData.detail));
+        const translatedMessage = translateErrorMessage(errorData.detail);
+        Alert.alert('회원가입 실패', translatedMessage);
         return;
       }
 

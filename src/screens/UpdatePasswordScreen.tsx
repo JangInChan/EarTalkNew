@@ -7,7 +7,13 @@ import UpdatePasswordScreenStyles from '../styles/UpdatePasswordScreenStyles';
 const UpdatePasswordScreen = ({ navigation }: any) => {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  const [verifyNewPassword, setVerifyNewPassword] = useState('');  // verifyNewPassword 상태 추가
+  const [verifyNewPassword, setVerifyNewPassword] = useState('');
+
+  // 비밀번호 유효성 검사를 위한 함수
+  const validatePassword = (password: string) => {
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
+  };
 
   const handlePasswordChange = async () => {
     if (!oldPassword || !newPassword || !verifyNewPassword) {
@@ -20,9 +26,17 @@ const UpdatePasswordScreen = ({ navigation }: any) => {
       return;
     }
 
+    if (!validatePassword(newPassword)) {
+      Alert.alert(
+        '오류',
+        '비밀번호는 8자리 이상이어야 하며, 영어, 숫자 및 특수기호를 포함해야 합니다.'
+      );
+      return;
+    }
+
     try {
       const token = await AsyncStorage.getItem('access_token');
-      
+
       if (!token) {
         Alert.alert('오류', '인증되지 않았습니다. 로그인 해주세요.');
         return;
@@ -32,7 +46,7 @@ const UpdatePasswordScreen = ({ navigation }: any) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,  // 인증 토큰을 헤더에 추가
+          'Authorization': `Bearer ${token}`, // 인증 토큰 추가
         },
         body: JSON.stringify({
           current_password: oldPassword,
@@ -50,8 +64,7 @@ const UpdatePasswordScreen = ({ navigation }: any) => {
       }
 
       Alert.alert('비밀번호 변경 성공', '비밀번호가 성공적으로 변경되었습니다.');
-      navigation.goBack();  // 비밀번호 변경 후 이전 화면으로 돌아감
-
+      navigation.goBack(); // 성공 시 이전 화면으로 돌아가기
     } catch (error) {
       console.error('비밀번호 변경 오류:', error);
       Alert.alert('오류', '비밀번호 변경 중 문제가 발생했습니다.');

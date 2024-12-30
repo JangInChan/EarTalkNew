@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import { View, Alert, Text, TouchableOpacity } from 'react-native';
-import Animated, { useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
-import { GestureHandlerRootView, PinchGestureHandler, PinchGestureHandlerGestureEvent } from 'react-native-gesture-handler';
+import PinchZoomWrapper from './src/screens/PinchZoomWrapper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Font from 'expo-font';
 import HomeScreen from './src/App';
@@ -58,81 +57,38 @@ const App = () => {
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <PinchZoomWrapper>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="Home">
-            <Stack.Screen
-              name="Home"
-              component={HomeScreen}
-              options={({ navigation }) => ({
-                headerTitle: () => (
-                  <Text style={MainScreenStyles.headerTitle}>EarTalk</Text>
-                ),
-                headerLeft: () => null,
-                headerRight: () => (
-                  <TouchableOpacity
-                    style={MainScreenStyles.headerButton}
-                    onPress={() => navigation.navigate('Menu')}
-                  >
-                    <Text style={MainScreenStyles.headerButtonText}>메뉴</Text>
-                  </TouchableOpacity>
-                ),
-              })}
-            />
-            <Stack.Screen name="SignUp" component={SignUpScreen} options={{ title: '회원가입' }} />
-            <Stack.Screen name="Login" component={LoginScreen} options={{ title: '로그인' }} />
-            <Stack.Screen name="UpdatePassword" component={UpdatePasswordScreen} options={{ title: '비밀번호 변경' }} />
-            <Stack.Screen name="UserInfo" component={UserInfoScreen} options={{ title: '내 정보' }} />
-            <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} options={{ title: '비밀번호 찾기' }} />
-            <Stack.Screen name="DeleteAccount" component={DeleteAccountScreen} options={{ title: '회원탈퇴' }} />
-            <Stack.Screen name="RecordingList" component={RecordingListScreen} options={{ title: '녹음 기록' }} />
-            <Stack.Screen name="Menu" component={MenuScreen} options={{ title: '메뉴' }} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </PinchZoomWrapper>
-    </GestureHandlerRootView>
-  );
-};
-
-//핀치 줌 추가
-const PinchZoomWrapper: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
-  const scale = useSharedValue(1);
-  const initialScale = useSharedValue(1);
-  const MIN_SCALE = 1;
-  const MAX_SCALE = 3;
-
-  const handlePinchGesture = (event: PinchGestureHandlerGestureEvent) => {
-    let nextScale = initialScale.value * event.nativeEvent.scale;
-
-    if (nextScale < MIN_SCALE) {
-      nextScale = MIN_SCALE;
-    }
-
-    if (nextScale > MAX_SCALE) {
-      nextScale = MAX_SCALE;
-    }
-
-    scale.value = nextScale;
-  };
-
-  const handleStateChange = (event: any) => {
-    if (event.nativeEvent.oldState === 2) {
-      initialScale.value = scale.value;
-    }
-  };
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-  }));
-
-  return (
-    <PinchGestureHandler
-      onGestureEvent={handlePinchGesture}
-      onHandlerStateChange={handleStateChange}
-    >
-      <Animated.View style={[{ flex: 1 }, animatedStyle]}>{children}</Animated.View>
-    </PinchGestureHandler>
+    <PinchZoomWrapper>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={({ navigation }) => ({
+              headerTitle: () => (
+                <Text style={MainScreenStyles.headerTitle}>EarTalk</Text>
+              ),
+              headerLeft: () => null,
+              headerRight: () => (
+                <TouchableOpacity
+                  style={MainScreenStyles.headerButton}
+                  onPress={() => navigation.navigate('Menu')}
+                >
+                  <Text style={MainScreenStyles.headerButtonText}>메뉴</Text>
+                </TouchableOpacity>
+              ),
+            })}
+          />
+          <Stack.Screen name="SignUp" component={SignUpScreen} options={{ title: '회원가입' }} />
+          <Stack.Screen name="Login" component={LoginScreen} options={{ title: '로그인' }} />
+          <Stack.Screen name="UpdatePassword" component={UpdatePasswordScreen} options={{ title: '비밀번호 변경' }} />
+          <Stack.Screen name="UserInfo" component={UserInfoScreen} options={{ title: '내 정보' }} />
+          <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} options={{ title: '비밀번호 찾기' }} />
+          <Stack.Screen name="DeleteAccount" component={DeleteAccountScreen} options={{ title: '회원탈퇴' }} />
+          <Stack.Screen name="RecordingList" component={RecordingListScreen} options={{ title: '녹음 기록' }} />
+          <Stack.Screen name="Menu" component={MenuScreen} options={{ title: '메뉴' }} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </PinchZoomWrapper>
   );
 };
 

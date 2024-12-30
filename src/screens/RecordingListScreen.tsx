@@ -12,15 +12,15 @@ const RecordingListScreen = () => {
   const fetchRecordings = async () => {
     try {
       setLoading(true);
-  
+
       const token = await AsyncStorage.getItem('access_token');
       console.log('토큰 확인:', token);
-  
+
       if (!token) {
         Alert.alert('로그인 필요', '로그인이 필요합니다.');
         return;
       }
-  
+
       const response = await fetch(`${config.API_BASE_URL}/api/users/me/audios`, {
         method: 'GET',
         headers: {
@@ -28,7 +28,7 @@ const RecordingListScreen = () => {
           Authorization: `Bearer ${token}`, // Bearer 형식으로 토큰 전달
         },
       });
-  
+
       if (!response.ok) {
         const errorText = await response.text();
         console.error('API 요청 실패:', errorText);
@@ -36,10 +36,10 @@ const RecordingListScreen = () => {
         setRecordings([]);
         return;
       }
-  
+
       const data = await response.json();
       console.log('API 응답 데이터:', data);
-  
+
       if (data.count > 0) {
         setRecordings(data.data);
       } else {
@@ -63,10 +63,6 @@ const RecordingListScreen = () => {
     <View style={RecordingListScreenStyles.recordingItem}>
       <Text style={RecordingListScreenStyles.recordingText}>ID: {item.id}</Text>
       <Text style={RecordingListScreenStyles.recordingText}>텍스트: {item.text}</Text>
-      <Text style={RecordingListScreenStyles.recordingText}>원본 파일 경로: {item.original_filepath}</Text>
-      <Text style={RecordingListScreenStyles.recordingText}>처리된 파일 경로: {item.processed_filepath}</Text>
-      {/* 여기에 업로드 시간 추가 시각화 (optional) */}
-      <Text style={RecordingListScreenStyles.recordingText}>업로드 시간: {new Date(item.created_at).toLocaleString()}</Text>
     </View>
   );
 

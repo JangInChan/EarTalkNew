@@ -91,6 +91,15 @@ const AppStyles = StyleSheet.create({
     fontSize: 16,
     color: '#555',
   },
+  // downloadButton 스타일 추가
+  downloadButton: {
+    backgroundColor: '#ADD8E6', // 버튼 배경색
+    borderRadius: 10,
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+  },
 });
 
 export default AppStyles;
