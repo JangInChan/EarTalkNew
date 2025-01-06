@@ -31,7 +31,7 @@ const AppStyles = StyleSheet.create({
     padding: 10,
     color: '#000',
     fontSize: 16,
-    fontFamily: 'KCC-Hanbit',
+    fontFamily: 'KoddiUDOnGothic-Bold',
   },
   actionButtons: {
     flexDirection: 'row',
@@ -75,7 +75,7 @@ const AppStyles = StyleSheet.create({
     fontSize: 24,
   },
   status: {
-    fontFamily: 'KCC-Hanbit',
+    fontFamily: 'KoddiUDOnGothic-Bold',
     fontSize: 16,
     marginTop: 10,
     color: 'gray',
@@ -87,7 +87,7 @@ const AppStyles = StyleSheet.create({
     backgroundColor: 'f5f5f5',
   },
   loadingText: {
-    fontFamily: 'KCC-Hanbit',
+    fontFamily: 'KoddiUDOnGothic-Bold',
     fontSize: 16,
     color: '#555',
   },

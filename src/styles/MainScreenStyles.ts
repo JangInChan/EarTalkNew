@@ -1,4 +1,6 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
+
+const { width, height } = Dimensions.get('window');
 
 const MainScreenStyles = StyleSheet.create({
   container: {
@@ -6,42 +8,68 @@ const MainScreenStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f9f9f9',
+    padding: width * 0.05,
   },
+
   loadingText: {
-    fontFamily: 'KCC-Hanbit',
-    fontSize: 20,
+    fontFamily: 'KoddiUDOnGothic-Bold',
+    fontSize: width * 0.05,
     color: 'black',
+    textAlign: 'center',
+    marginVertical: height * 0.02,
   },
+
   headerTitle: {
-    fontSize: 20,
+    fontSize: width * 0.05,
     fontWeight: 'bold',
-    fontFamily: 'KCC-Hanbit',
+    fontFamily: 'KoddiUDOnGothic-Bold',
     color: '#333',
+    textAlign: 'center',
+    marginVertical: height * 0.01,
   },
+
   headerButton: {
-    padding: 10,
+    padding: width * 0.03,
     backgroundColor: '#FFE400',
-    borderRadius: 5,
-    marginRight: 10,
+    borderRadius: width * 0.02,
+    marginRight: width * 0.03,
   },
+
   headerButtonText: {
-    fontFamily: 'KCC-Hanbit',
+    fontFamily: 'KoddiUDOnGothic-Bold',
     color: 'black',
     fontWeight: 'bold',
+    fontSize: width * 0.04,
   },
+
   button: {
     backgroundColor: '#FFE400',
-    padding: 15,
-    borderRadius: 5,
-    marginVertical: 10,
+    padding: height * 0.02,
+    borderRadius: width * 0.02,
+    marginVertical: height * 0.02,
     width: '80%',
     alignItems: 'center',
   },
+
   buttonText: {
-    fontFamily: 'KCC-Hanbit',
+    fontFamily: 'KoddiUDOnGothic-Bold',
     color: 'black',
-    fontSize: 16,
+    fontSize: width * 0.045,
     fontWeight: 'bold',
+  },
+
+  textGroup: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    marginVertical: height * 0.02,
+  },
+
+  textItem: {
+    fontFamily: 'KoddiUDOnGothic-Bold',
+    fontSize: width * 0.04,
+    color: '#333',
+    textAlign: 'center',
   },
 });
 

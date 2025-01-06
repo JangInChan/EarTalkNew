@@ -1,4 +1,4 @@
-import React from 'react';
+/* import React from 'react';
 import { Dimensions } from 'react-native';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, runOnJS } from 'react-native-reanimated';
 import { GestureHandlerRootView, GestureDetector, Gesture } from 'react-native-gesture-handler';
@@ -85,3 +85,4 @@ const PinchZoomWrapper: React.FC<React.PropsWithChildren<{}>> = ({ children }) =
 };
 
 export default PinchZoomWrapper;
+ */

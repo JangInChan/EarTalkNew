@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 const RecordingListScreenStyles = StyleSheet.create({
   container: {
@@ -7,13 +7,13 @@ const RecordingListScreenStyles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   loadingText: {
-    fontFamily: 'KCC-Hanbit',
+    fontFamily: 'KoddiUDOnGothic-Bold',
     textAlign: 'center',
     fontSize: 18,
     color: 'gray',
   },
   emptyText: {
-    fontFamily: 'KCC-Hanbit',
+    fontFamily: 'KoddiUDOnGothic-Bold',
     textAlign: 'center',
     fontSize: 16,
     color: 'red',
@@ -27,27 +27,46 @@ const RecordingListScreenStyles = StyleSheet.create({
     backgroundColor: '#f9f9f9',
   },
   recordingText: {
-    fontFamily: 'KCC-Hanbit',
+    fontFamily: 'KoddiUDOnGothic-Bold',
     fontSize: 14,
     marginVertical: 2,
     color: '#333',
   },
-  playButton: {
+  button: {
     marginTop: 10,
     paddingVertical: 8,
     paddingHorizontal: 16,
-    backgroundColor: '#007BFF',
     borderRadius: 5,
     alignItems: 'center',
   },
-  playButtonText: {
-    fontFamily: 'KCC-Hanbit',
+  buttonText: {
+    fontFamily: 'KoddiUDOnGothic-Bold',
     fontSize: 14,
     color: '#fff',
     fontWeight: 'bold',
   },
+  playButton: {
+    backgroundColor: '#007BFF',
+  },
+  deleteButton: {
+    backgroundColor: '#F44336',
+  },
+  deleteAllButton: {
+    marginTop: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: '#FF9800',
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  deleteAllButtonText: {
+    fontFamily: 'KoddiUDOnGothic-Bold',
+    fontSize: 16,
+    color: '#fff',
+    fontWeight: 'bold',
+  },
   statusText: {
-    fontFamily: 'KCC-Hanbit',
+    fontFamily: 'KoddiUDOnGothic-Bold',
     textAlign: 'center',
     fontSize: 14,
     color: '#007BFF',

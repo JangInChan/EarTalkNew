@@ -7,7 +7,7 @@ const UpdatePasswordScreenStyles = StyleSheet.create({
     padding: 20,
   },
   title: {
-    fontFamily: 'KCC-Hanbit',
+    fontFamily: 'KoddiUDOnGothic-Bold',
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,

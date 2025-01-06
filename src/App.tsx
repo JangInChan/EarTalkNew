@@ -30,7 +30,7 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [fontsLoaded] = useFonts({
-    "KCC-Hanbit": require("../assets/font/KCC-Hanbit.ttf"),
+    "KCC-Hanbit": require("../assets/font/KoddiUDOnGothic-Bold.ttf"),
   });
 
   useEffect(() => {

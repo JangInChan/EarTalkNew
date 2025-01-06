@@ -9,7 +9,7 @@ const DeleteAccountScreenStyles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   warningText: {
-    fontFamily: 'KCC-Hanbit',
+    fontFamily: 'KoddiUDOnGothic-Bold',
     fontSize: 16,
     color: 'red',
     marginBottom: 20,
