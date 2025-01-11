@@ -268,9 +268,11 @@ const App = () => {
               <TouchableOpacity style={AppStyles.iconButton} onPress={playStreamedAudio}>
                 <MaterialIcons name="play-arrow" size={24} color="black" />
               </TouchableOpacity>
-              <TouchableOpacity style={AppStyles.iconButton} onPress={speakText}>
-                <FontAwesome name="volume-up" size={24} color="black" />
-              </TouchableOpacity>
+              {isLoggedIn && (
+                <TouchableOpacity style={AppStyles.iconButton} onPress={speakText}>
+                  <FontAwesome name="volume-up" size={24} color="black" />
+                </TouchableOpacity>
+              )}
             </View>
           </View>
 
