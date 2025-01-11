@@ -66,6 +66,7 @@ const App = () => {
 
   const startRecording = async () => {
     try {
+      setText("");
       setStatus("녹음 준비 중...");
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: true,
@@ -145,6 +146,11 @@ const App = () => {
   };
 
   const saveRecordingData = async (recordingData: any) => {
+    if (!isLoggedIn) {
+      console.log("비로그인 상태에서는 녹음 데이터를 저장하지 않습니다.");
+      return;
+    }
+
     try {
       const recordings = JSON.parse((await AsyncStorage.getItem("recordings")) || "[]");
       recordings.push(recordingData);

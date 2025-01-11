@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { config } from '../config';
 import RecordingListScreenStyles from '../styles/RecordingListScreenStyles';
 import { playStreamedAudio } from './audioFunctions'; // playStreamedAudio 함수 import
 
@@ -14,16 +13,24 @@ const RecordingListScreen = () => {
     try {
       setLoading(true);
 
-      // 로컬 저장소에서 녹음 기록을 가져옵니다.
-      const recordingsData = await AsyncStorage.getItem('recordings');
+      // 로그인 상태 확인
+      const token = await AsyncStorage.getItem("access_token");
+      if (!token) {
+        console.log("비로그인 상태: 녹음 기록 없음");
+        setRecordings([]);
+        return;
+      }
+
+      // 로컬 저장소에서 녹음 기록 가져오기
+      const recordingsData = await AsyncStorage.getItem("recordings");
       if (recordingsData) {
         setRecordings(JSON.parse(recordingsData));
       } else {
         setRecordings([]);
       }
     } catch (error) {
-      console.error('녹음 기록 로드 실패:', error);
-      Alert.alert('오류', '녹음 기록을 불러오는 중 문제가 발생했습니다.');
+      console.error("녹음 기록 로드 실패:", error);
+      Alert.alert("오류", "녹음 기록을 불러오는 중 문제가 발생했습니다.");
     } finally {
       setLoading(false);
     }
